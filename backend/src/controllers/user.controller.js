@@ -1,4 +1,4 @@
-import { userModel } from "../models/users.models";
+import { userModel } from "../models/users.models.js";
 
 //1.metodo para CREAR un Usuario -> POST
 export const postUser = (request, response) => {
