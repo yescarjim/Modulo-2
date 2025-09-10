@@ -46,8 +46,8 @@ export const getAllProducts = async (request, response) => {
 //3. Método para ACTUALIZAR un producto -> PUT
 export const putProductById = async (request, response) => {
     try {
-    const idForUpdate = request.params;
-    const dataForUpadate = request.body;
+    const idForUpdate = request.params.id;
+    const dataForUpdate = request.body;
 
     await productsModel.findByIdAndUpdate(idForUpdate,dataForUpadate);
     return response.status(200).json({
@@ -58,7 +58,7 @@ export const putProductById = async (request, response) => {
         return response.status(500).json({
             "mensaje": "Ocurrio un error al actualizar producto",
             "error": error.message || error
-        })
+        });
 
     }
 }
@@ -66,7 +66,7 @@ export const putProductById = async (request, response) => {
 //4. Método para ELIMINAR un Producto -> DELETE
 export const deleteProductById = async (request, response) => {
     try {
-const idForDelete = request.params;
+const idForDelete = request.params.id;
 await productsModel.findByIdAndDelete(idForDelete);
 
 return response.status(200).json({
