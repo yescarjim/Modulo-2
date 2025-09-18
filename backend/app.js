@@ -8,14 +8,20 @@ import { conexionmongo } from "./src/config/db.js";
 import { productRouter } from "./src/routes/products.routes.js";
 import { userRouter } from "./src/routes/user.routers.js";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import { loginRouter } from "./src/routes/login.routes.js";
+
 
 
 //2. Configurar las dependencias que necesitamos
 const app =express();
 dotenv.config();
 const port = process.env.PORT;
+conexionmongo();//Esto es lo que hace la conexion con db
 
-conexionmongo();//Esto es lo que hace la coneccion con db
+const _filename = fileURLToPath(import.meta.url); // _filename = backend/app.js  ruta archivo
+const _dirname = path.dirname(_filename);//_dirname = backend           ruta carpeta
 
 
 
@@ -28,7 +34,8 @@ app.use(cors());// Habilita CORS
 app.use(express.json());//para usar formato json en peticiones y respuestas
 app.use("/products", productRouter);
 app.use ("/users", userRouter);
-
+app.use("/uploads", express.static(path.join(_dirname, "src/uploads")));// Ruta  tiene que ser exactamente igual a el controlador
+app.use("/login", loginRouter);
 
 //4. Levantar o poner a funcionar el servidor//3000,6000
 app.listen(port, ()=>{

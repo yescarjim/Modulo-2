@@ -5,8 +5,23 @@ import { productsModel } from "../models/products.model.js";
 
 //1. Método para CREAR un producto -> POST
 export const postProduct = async (request, response) => {
+
     try {
-        await productsModel.create(request.body);
+
+        if (!request.file) {
+            return response.status(400).json({
+                "mensaje": "Debes subir un archivo de imagen"
+            });
+        };
+
+        // organizo primero el producto que se va a crear
+        const newProduct = {
+            ...request.body,
+            image:`/uploads/${request.file.filename}`
+        };
+
+
+        await productsModel.create(newProduct);
 
         return response.status(201).json({
             "mensaje": "Producto creado correctamente"
@@ -46,13 +61,13 @@ export const getAllProducts = async (request, response) => {
 //3. Método para ACTUALIZAR un producto -> PUT
 export const putProductById = async (request, response) => {
     try {
-    const idForUpdate = request.params.id;
-    const dataForUpdate = request.body;
+        const idForUpdate = request.params.id;
+        const dataForUpdate = request.body;
 
-    await productsModel.findByIdAndUpdate(idForUpdate,dataForUpadate);
-    return response.status(200).json({
-        "mensaje":"Producto actualizado axitosamente"
-    });
+        await productsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
+        return response.status(200).json({
+            "mensaje": "Producto actualizado axitosamente"
+        });
 
     } catch (error) {
         return response.status(500).json({
@@ -66,12 +81,12 @@ export const putProductById = async (request, response) => {
 //4. Método para ELIMINAR un Producto -> DELETE
 export const deleteProductById = async (request, response) => {
     try {
-const idForDelete = request.params.id;
-await productsModel.findByIdAndDelete(idForDelete);
+        const idForDelete = request.params.id;
+        await productsModel.findByIdAndDelete(idForDelete);
 
-return response.status(200).json({
-    "mensaje": "Producto eliminado exitosamente"
-});
+        return response.status(200).json({
+            "mensaje": "Producto eliminado exitosamente"
+        });
 
     } catch (error) {
         return response.status(500).json({

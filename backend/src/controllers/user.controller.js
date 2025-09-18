@@ -7,9 +7,9 @@ export const postUser = async (request, response) => {
     try {
         //deestructuracion cuando se hace-procesar 
         //la informacion del usuario  antes de guardarla
-        const { name, usarname, email, age, password, role } = request.body;
+        const { name, username, email, age, password, role } = request.body;
         //.hash encripta la contraseña
-        const codedPassword = bcryptjs.hash(password, 10)
+        const codedPassword = await bcryptjs.hash(password, 10)
 
         await userModel.create({
             name,
@@ -25,7 +25,6 @@ export const postUser = async (request, response) => {
             "mensaje": "Usuario creado correctamente"
         });
 
-        
 
     } catch (error) {
         return response.status(400).json({
@@ -35,17 +34,33 @@ export const postUser = async (request, response) => {
     }
 }
 
+
+
 //2. Metodo para MOSTRAR todos los usuarios -> GET
 export const getAllUsers = async (request, response) => {
-    return response.json({ "mensaje": "Funciona peticion GET" });
+
+    try {
+        const allUsers = await userModel.find();
+        return response.json(200).json({
+            "mensaje": "Usuario mostrado exitosamente",
+            "data": allUsers
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            "mensaje": "Ocurrio un error al mostrar usuario",
+            "error": error.message || error
+        });
+    }
+
 }
 
-//3. Metodo para ACTUALIZAR un usuario -> PUT
-export const putUserById = (request, response) => {
-    return response.json({ "mensaje": "Fuciona peticion PUT" });
-}
+    //3. Metodo para ACTUALIZAR un usuario -> PUT
+    export const putUserById = (request, response) => {
+        return response.json({ "mensaje": "Fuciona peticion PUT" });
+    }
 
-//4. Metodo para ELIMINAR un usuario -> DELETE
-export const deleteUserById = (request, response) => {
-    return response.json({ "mensaje": "Fuciona peticion DELETE" });
-}
+    //4. Metodo para ELIMINAR un usuario -> DELETE
+    export const deleteUserById = (request, response) => {
+        return response.json({ "mensaje": "Fuciona peticion DELETE" });
+    }
