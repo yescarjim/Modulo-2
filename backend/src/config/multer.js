@@ -41,7 +41,7 @@ const fileFilter = (req, file, cb) => {
     if (allowed.includes(file.mimetype)) {
         cb(null, true) // Si el archivo es permitido lo guarde en la carpeta uploads
     } else {
-        cb(new Error("Archivo no permitido"), false)// non puede guardar el archivo
+        cb(new Error("Archivo no permitido"), false)// no puede guardar el archivo
     }
 }
 

@@ -26,9 +26,9 @@ const _dirname = path.dirname(_filename);//_dirname = backend           ruta car
 
 
 //3. Funcionalidades que necesite agregar
-app.get("/",(req,res)=>{
-res.send("server works!")
-});
+//app.get("/",(req,res)=>{
+//res.send("server works!")
+//});
 
 app.use(cors());// Habilita CORS
 app.use(express.json());//para usar formato json en peticiones y respuestas
@@ -36,6 +36,14 @@ app.use("/products", productRouter);
 app.use ("/users", userRouter);
 app.use("/uploads", express.static(path.join(_dirname, "src/uploads")));// Ruta  tiene que ser exactamente igual a el controlador
 app.use("/login", loginRouter);
+
+// Servir Frontend
+app.use(express.static(path.join(_dirname, "dist", "frontend", "browser")));
+
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(_dirname, "dist", "frontend", "browser", "index.html"));// archivo puerta de entrada
+});
+
 
 //4. Levantar o poner a funcionar el servidor//3000,6000
 app.listen(port, ()=>{

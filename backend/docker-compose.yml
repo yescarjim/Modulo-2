@@ -1,0 +1,9 @@
+services:
+  backend:
+    build: ./
+    container_name: backend_class
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
