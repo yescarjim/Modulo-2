@@ -38,10 +38,10 @@ app.use("/uploads", express.static(path.join(_dirname, "src/uploads")));// Ruta 
 app.use("/login", loginRouter);
 
 // Servir Frontend
-app.use(express.static(path.join(_dirname, "dist", "frontend", "browser")));
+app.use(express.static(path.join(_dirname, "dist", "Frontend", "browser")));
 
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(_dirname, "dist", "frontend", "browser", "index.html"));// archivo puerta de entrada
+  res.sendFile(path.join(_dirname, "dist", "Frontend", "browser", "index.html"));// archivo puerta de entrada
 });
 
 
